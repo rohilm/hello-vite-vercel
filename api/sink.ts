@@ -1,5 +1,6 @@
 // /api/sink.ts — echoes whatever you POST and logs it
-export const config = { runtime: "nodejs18.x" };
+export const config = { runtime: "nodejs" };
+
 
 export default async function handler(req: Request): Promise<Response> {
   const raw = await req.text().catch(() => "");
