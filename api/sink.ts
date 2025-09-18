@@ -1,17 +1,12 @@
-// /api/sink.ts — echoes whatever you POST and logs it
-export const config = { runtime: "nodejs" };
-
+export const config = { runtime: "edge" };
 
 export default async function handler(req: Request): Promise<Response> {
   const raw = await req.text().catch(() => "");
-  // Log to Vercel logs
   console.log("SINK HIT", { method: req.method, raw });
 
-  // Try to parse JSON for nicer viewing
   let body: unknown = raw;
   try { body = JSON.parse(raw); } catch {}
 
-  // Optional CORS for testing from browser
   const headers = new Headers({
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
@@ -20,7 +15,6 @@ export default async function handler(req: Request): Promise<Response> {
   });
   if (req.method === "OPTIONS") return new Response(null, { status: 204, headers });
 
-  // Echo back everything we received
   const payload = {
     ok: true,
     method: req.method,
